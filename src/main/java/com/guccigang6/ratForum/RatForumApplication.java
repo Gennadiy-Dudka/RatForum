@@ -1,4 +1,4 @@
-package com.guccigang6.RatForum;
+package com.guccigang6.ratForum;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
