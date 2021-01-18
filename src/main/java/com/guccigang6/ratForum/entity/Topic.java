@@ -16,7 +16,10 @@ import java.util.List;
 public class Topic {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE,
-                    generator = "topic_topic_id_seq")
+                    generator = "topic_id_generator")
+    @SequenceGenerator(name="topic_id_generator",
+                       sequenceName = "topic_topic_id_seq",
+                       allocationSize = 1)
     @Column(name="topic_id")
     private Long topicId;
 

@@ -12,10 +12,13 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class UserAccount {
+public class UserAccount{
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE,
-                    generator="user_account_user_id_seq")
+                    generator="user_id_generator")
+    @SequenceGenerator(name="user_id_generator",
+                       sequenceName = "user_account_user_id_seq",
+                       allocationSize = 1)
     @Column(name="user_id")
     private Long userId;
 

@@ -1,0 +1,74 @@
+body{
+    font-family: 'Source Code Pro', monospace;
+}
+
+.big-block{
+    background-color: #ddddee;
+    border-radius: 5px;
+    border:2px black solid;
+    margin: 10px;
+    padding:10px;
+}
+
+.header-block{
+    height: 100px;
+    text-align:right;
+    line-height:50px;
+}
+
+.logo-text{
+    margin-top: 0px;
+    margin-bottom: 0.25%;
+    margin-right:5%;
+    font-size: 32px;
+    text-decoration:none;
+    color:black;
+}
+
+.under-logo-text{
+    margin-top:0px;
+    margin-right:5%;
+    font-size:18px;
+
+}
+
+.thread-container{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.thread-block{
+    box-sizing: border-box;
+    margin: 10px;
+    padding:10px;
+    background-color: #ffe6bb;
+    border-radius: 5px;
+    display: block;
+    width: 300px;
+    word-break: break-all;
+}
+
+.comment-block{
+    margin: 10px;
+    padding:10px;
+    background-color: #ffe6bb;
+    border-radius: 5px;
+    font-size: 20px;
+
+}
+
+.button-link {
+    border: 1px black solid;
+    border-radius: 5px;
+    text-decoration: none;
+    color: initial;
+    padding: 5px;
+    display: block;
+    width: 180px;
+    margin: auto;
+    text-align: center;
+}
+
+.button-link:hover{
+    background-color: red;
+}
