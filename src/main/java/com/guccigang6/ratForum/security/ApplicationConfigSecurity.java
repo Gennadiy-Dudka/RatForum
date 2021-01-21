@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -40,7 +41,17 @@ public class ApplicationConfigSecurity extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                     .loginPage("/login")
-                    .defaultSuccessUrl("/home");
+                    .defaultSuccessUrl("/home")
+                    .failureHandler((req,res,exc)->{
+                    String err;
+                    if(exc.getClass().isAssignableFrom(BadCredentialsException.class)){
+                        err = "Invalid Username or Password";
+                    } else {
+                        err = "Unknown error";
+                    }
+                    req.setAttribute("error", err);
+                    res.sendRedirect("/login");
+                    });
     }
 
     @Bean

@@ -10,12 +10,12 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
-public class RegistrationController {
+public class UserAccountController {
 
     private final UserAccountService userAccountService;
 
     @Autowired
-    public RegistrationController(UserAccountService userAccountService) {
+    public UserAccountController(UserAccountService userAccountService) {
         this.userAccountService = userAccountService;
     }
 
@@ -23,7 +23,7 @@ public class RegistrationController {
     public ModelAndView openRegistration(){
         ModelAndView mv = new ModelAndView();
         mv.addObject("user",new UserAccount());
-        mv.setViewName("register");
+        mv.setViewName("registerView");
         return mv;
     }
 
@@ -41,15 +41,18 @@ public class RegistrationController {
             mv.setViewName("redirect:/home");
         }catch (Exception e){
             err = e.getMessage();
-            mv.addObject("user", userAccount);
+            mv.addObject("user", new UserAccount());
             mv.addObject("error", err);
-            mv.setViewName("register");
+            mv.setViewName("registerView");
         }
         return mv;
     }
 
-    @GetMapping("/api")
-    public @ResponseBody String f(){
-        return "xxx";
+    @GetMapping("/login")
+    public ModelAndView openLogin(){
+        ModelAndView mv = new ModelAndView();
+        mv.addObject("user",new UserAccount());
+        mv.setViewName("loginView");
+        return mv;
     }
 }
