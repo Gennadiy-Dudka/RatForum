@@ -7,13 +7,16 @@ import com.guccigang6.ratForum.exceptions.PageNotFoundException;
 import com.guccigang6.ratForum.repository.CommentDao;
 import com.guccigang6.ratForum.repository.TopicDao;
 import com.guccigang6.ratForum.security.UserAccountDetails;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -34,9 +37,16 @@ public class TopicService {
     }
 
     @Transactional
-    public Topic saveTopic(Topic topic){
+    public Topic saveTopic(Topic topic, MultipartFile image){
         UserAccount userAccount = ((UserAccountDetails)SecurityContextHolder.getContext()
                 .getAuthentication().getPrincipal()).getUserAccount();
+        try {
+            if (!image.isEmpty()) {
+                topic.setImage(image.getBytes());
+            }
+        }catch(IOException e){
+            throw new RuntimeException(e);
+        }
         topic.setCreationDate(LocalDateTime.now());
         topic.setUserAccount(userAccount);
         return topicDao.save(topic);

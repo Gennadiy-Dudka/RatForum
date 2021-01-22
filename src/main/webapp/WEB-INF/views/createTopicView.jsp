@@ -13,15 +13,19 @@
 <body>
 <jsp:include page="_header.jsp"/>
 <div class="big-block">
-    <form:form method="POST" action="${pageContext.request.contextPath}/topic/create">
+    <form:form method="POST" enctype="multipart/form-data" action="${pageContext.request.contextPath}/topic/create">
         <table border=0>
             <tr>
-                <td>Thread topic</td>
+                <td>Theme</td>
                 <td><textarea name="theme" cols="40" rows="3" >${topic.theme }</textarea> </td>
             </tr>
             <tr>
-                <td>Thread body</td>
+                <td>Body</td>
                 <td><textarea name="value" cols="40" rows="5" >${topic.value }</textarea> </td>
+            </tr>
+            <tr>
+                <td>Image</td>
+                <td><input type="file" name="imageFile" accept=".jpg, .jpeg, .png"></td>
             </tr>
             <tr>
                 <td colspan="2">

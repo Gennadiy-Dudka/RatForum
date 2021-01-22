@@ -8,7 +8,11 @@ import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 
 @Controller
 @RequestMapping("/topic")
@@ -29,9 +33,10 @@ public class TopicController {
     }
 
     @PostMapping("/create")
-    public ModelAndView createTopic(@ModelAttribute("topic") Topic topic){
+    public ModelAndView createTopic(@ModelAttribute("topic") Topic topic,
+                                    @RequestParam("imageFile")MultipartFile image){
         ModelAndView mv = new ModelAndView();
-        Topic savedTopic = topicService.saveTopic(topic);
+        Topic savedTopic = topicService.saveTopic(topic, image);
         mv.setViewName("redirect:/topic/" + savedTopic.getTopicId());
         return mv;
     }
@@ -42,6 +47,10 @@ public class TopicController {
         Topic topic;
         try{
             topic = topicService.getTopic(id);
+            if(topic.getImage() != null) {
+                byte[] encoded = Base64.getEncoder().encode(topic.getImage());
+                mv.addObject("image", new String(encoded, StandardCharsets.UTF_8));
+            }
         }catch (PageNotFoundException e){
             mv.setViewName("redirect:/home");
             return mv;

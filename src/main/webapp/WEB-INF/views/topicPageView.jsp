@@ -18,6 +18,9 @@
     <p>User: ${topic.userAccount.username }</p>
     <p>Creation Date: ${topic.formatDate }</p>
     <h3>${topic.theme}</h3>
+    <c:if test="${image != null}">
+        <img src="data:image/jpg;base64,${image}" width="300" alt="topic image"/>
+    </c:if>
     <div>${topic.value}</div>
 </div>
 <div class="big-block">
