@@ -1,6 +1,7 @@
 package com.guccigang6.ratForum.service;
 
 import com.guccigang6.ratForum.entity.UserAccount;
+import com.guccigang6.ratForum.exceptions.RegistrationException;
 import com.guccigang6.ratForum.repository.UserAccountDao;
 import com.guccigang6.ratForum.security.UserAccountDetails;
 import org.springframework.beans.factory.annotation.Autowired;

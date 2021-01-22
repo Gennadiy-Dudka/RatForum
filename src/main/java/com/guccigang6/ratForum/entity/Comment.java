@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 @Table(name = "comment")
@@ -35,4 +36,9 @@ public class Comment {
     @ManyToOne
     @JoinColumn(name="user_id")
     private UserAccount userAccount;
+
+    public String getFormatDate(){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        return creationDate.format(formatter);
+    }
 }
