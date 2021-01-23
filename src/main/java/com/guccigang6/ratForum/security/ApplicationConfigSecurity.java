@@ -41,7 +41,7 @@ public class ApplicationConfigSecurity extends WebSecurityConfigurerAdapter {
         http
             .authorizeRequests()
             .antMatchers("/topic/create").authenticated()
-            .antMatchers(HttpMethod.POST, "/topic/createComment/**").authenticated()
+            .antMatchers(HttpMethod.POST, "/topic/**").authenticated()
             .anyRequest().permitAll()
             .and()
             .formLogin()

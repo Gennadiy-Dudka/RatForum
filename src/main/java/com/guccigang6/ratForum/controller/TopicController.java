@@ -2,7 +2,7 @@ package com.guccigang6.ratForum.controller;
 
 import com.guccigang6.ratForum.entity.Comment;
 import com.guccigang6.ratForum.entity.Topic;
-import com.guccigang6.ratForum.exceptions.PageNotFoundException;
+import com.guccigang6.ratForum.exceptions.RecordNotFoundException;
 import com.guccigang6.ratForum.service.TopicService;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +41,23 @@ public class TopicController {
         return mv;
     }
 
+    @PostMapping("/delete/{id}")
+    public ModelAndView deleteTopic(@PathVariable("id") long id){
+        ModelAndView mv = new ModelAndView();
+        Topic topic;
+        try{
+            topic = topicService.getTopic(id);
+        }catch (RecordNotFoundException e){
+            mv.setViewName("redirect:/home");           ///TODO: change to error page
+            return mv;
+        }
+        if(topicService.checkOwner(topic)){
+            topicService.deleteTopic(topic);
+        }
+        mv.setViewName("redirect:/home");
+        return mv;
+    }
+
     @GetMapping("/{id}")
     public ModelAndView openTopic(@PathVariable("id") long id){
         ModelAndView mv = new ModelAndView();
@@ -51,7 +68,7 @@ public class TopicController {
                 byte[] encoded = Base64.getEncoder().encode(topic.getImage());
                 mv.addObject("image", new String(encoded, StandardCharsets.UTF_8));
             }
-        }catch (PageNotFoundException e){
+        }catch (RecordNotFoundException e){
             mv.setViewName("redirect:/home");
             return mv;
         }
@@ -67,7 +84,28 @@ public class TopicController {
     public ModelAndView createComment(@ModelAttribute("comment") Comment comment,
                                       @PathVariable("topicId") Long topicId){
         ModelAndView mv = new ModelAndView();
-        topicService.saveComment(comment, topicId);
+        try {
+            topicService.saveComment(comment, topicId);
+        }catch (RecordNotFoundException e){
+            mv.setViewName("redirect:/home");           ///TODO: change to error page
+            return mv;
+        }
+        mv.setViewName("redirect:/topic/"+topicId);
+        return mv;
+    }
+
+    @PostMapping("/deleteComment/{commentId}")
+    public ModelAndView deleteComment(@PathVariable("commentId") Long id){
+        ModelAndView mv = new ModelAndView();
+        Comment comment;
+        try {
+            comment = topicService.getComment(id);
+        }catch (RecordNotFoundException e){
+            mv.setViewName("redirect:/home");           ///TODO: change to error page
+            return mv;
+        }
+        Long topicId = comment.getTopic().getTopicId();
+        topicService.deleteComment(comment);
         mv.setViewName("redirect:/topic/"+topicId);
         return mv;
     }
