@@ -8,6 +8,8 @@ import com.guccigang6.ratForum.repository.CommentDao;
 import com.guccigang6.ratForum.repository.TopicDao;
 import com.guccigang6.ratForum.security.UserAccountDetails;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -16,12 +18,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 public class TopicService {
     private final TopicDao topicDao;
     private final CommentDao commentDao;
+    private final static int PAGE_SIZE = 8;
 
     @Autowired
     public TopicService(TopicDao topicDao, CommentDao commentDao) {
@@ -30,8 +32,15 @@ public class TopicService {
     }
 
     @Transactional
-    public List<Topic> getTopics(){
-        return topicDao.findAll(Sort.by(Sort.Direction.DESC, "creationDate"));
+    public Slice<Topic> getPaginatedTopics(int page){
+        return topicDao.findAll(PageRequest.of(page, PAGE_SIZE,
+                Sort.Direction.DESC, "creationDate"));
+    }
+
+    @Transactional
+    public Slice<Topic> searchPaginatedTopics(int page, String searchedText){
+        return topicDao.findByThemeContains(searchedText,
+                PageRequest.of(page, PAGE_SIZE, Sort.Direction.DESC, "creationDate"));
     }
 
     @Transactional

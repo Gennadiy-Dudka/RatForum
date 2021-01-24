@@ -16,6 +16,10 @@ body{
     line-height:50px;
 }
 
+.search-block{
+    float:left;
+}
+
 .logo-text{
     margin-top: 0px;
     margin-bottom: 0.25%;
@@ -29,7 +33,7 @@ body{
     margin-top:0px;
     margin-right:5%;
     font-size:18px;
-
+    float:right;
 }
 
 .thread-container{

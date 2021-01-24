@@ -6,6 +6,7 @@ import com.guccigang6.ratForum.exceptions.RecordNotFoundException;
 import com.guccigang6.ratForum.service.TopicService;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,6 +23,17 @@ public class TopicController {
     @Autowired
     public TopicController(TopicService topicService) {
         this.topicService = topicService;
+    }
+
+    @GetMapping("/search")
+    public ModelAndView searchTopics(@RequestParam(name="page", defaultValue = "0", required = false) int page,
+                                     @RequestParam("searchedText") String searchedText){
+        ModelAndView mv = new ModelAndView();
+        Slice<Topic> searchedTopics = topicService.searchPaginatedTopics(page, searchedText);
+        mv.addObject("topics", searchedTopics);
+        mv.addObject("text",searchedText);
+        mv.setViewName("searchView");
+        return mv;
     }
 
     @GetMapping("/create")

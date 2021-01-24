@@ -6,17 +6,25 @@
 <div class = "big-block">
     <div class = "header-block">
         <a href="${pageContext.request.contextPath}/home" class = "logo-text">MyProject ImageBoard</a>
-        <div class = "under-logo-text">
-            <sec:authorize access="isAuthenticated()">
-                    Hello <sec:authentication property="principal.username"/>
-                    <form:form action="/logout" method="post" cssStyle="display:inline;">
-                        <input type="submit" value="logout"/>
-                    </form:form>
-            </sec:authorize>
-            <sec:authorize access="!isAuthenticated()">
-                <a href="${pageContext.request.contextPath}/login">Log in</a>
-                <a href="${pageContext.request.contextPath}/register">Sign up</a>
-            </sec:authorize>
+        <div style="clear:both;">
+            <div class = "under-logo-text">
+                <sec:authorize access="isAuthenticated()">
+                        Hello <sec:authentication property="principal.username"/>
+                        <form:form action="/logout" method="post" cssStyle="display:inline;">
+                            <input type="submit" value="logout"/>
+                        </form:form>
+                </sec:authorize>
+                <sec:authorize access="!isAuthenticated()">
+                    <a href="${pageContext.request.contextPath}/login">Log in</a>
+                    <a href="${pageContext.request.contextPath}/register">Sign up</a>
+                </sec:authorize>
+            </div>
+            <div class = "search-block">
+                <form action="${pageContext.request.contextPath}/topic/search" method="get">
+                    <input type="text" name="searchedText"/>
+                    <input type="submit" value="search"/>
+                </form>
+            </div>
         </div>
     </div>
 </div>

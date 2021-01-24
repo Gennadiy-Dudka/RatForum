@@ -13,7 +13,6 @@
 <body>
 <jsp:include page="_header.jsp"/>
 <div class="big-block">
-    <a href="${pageContext.request.contextPath}/topic/create" class="button-link">Create New Thread</a>
     <div>
         <div class="thread-container">
             <c:forEach items="${topics.content}" var="topic">
@@ -32,10 +31,10 @@
         </div>
         <div align="center">
             <c:if test="${topics.hasPrevious()}">
-                <a href="${pageContext.request.contextPath}/home?page=${topics.number - 1}">Prev</a>
+                <a href="${pageContext.request.contextPath}/topic/search?page=${topics.number - 1}&searchedText=${text}">Prev</a>
             </c:if>
             <c:if test="${topics.hasNext()}">
-                <a href="${pageContext.request.contextPath}/home?page=${topics.number + 1}">Next</a>
+                <a href="${pageContext.request.contextPath}/topic/search?page=${topics.number + 1}&searchedText=${text}">Next</a>
             </c:if>
         </div>
     </div>
